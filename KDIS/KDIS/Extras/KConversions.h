@@ -45,6 +45,7 @@ http://p.sf.net/kdis/UserGuide
 #endif
 
 #include <cmath>
+#include <math.h>
 
 namespace KDIS {
 namespace UTILS {
