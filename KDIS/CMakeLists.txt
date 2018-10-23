@@ -2,7 +2,47 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 PROJECT(KDIS)
 
+SET(KDIS_MAJOR_VERSION 2)
+SET(KDIS_MINOR_VERSION 9)
+SET(KDIS_PATCH_VERSION 0)
+SET(KDIS_SOVERSION 0)
+SET(KDIS_VERSION ${KDIS_MAJOR_VERSION}.${KDIS_MINOR_VERSION}.${KDIS_PATCH_VERSION})
+
+
 #Import all files, Headers and cpp files seperate.
+
+################################################################################
+# Installation stuff
+
+# Correct any incorrect case usage in CMAKE_BUILD_TYPE
+IF     (CMAKE_BUILD_TYPE MATCHES "release" OR CMAKE_BUILD_TYPE MATCHES "RELEASE")
+    SET(CMAKE_BUILD_TYPE "Release")
+ELSEIF (CMAKE_BUILD_TYPE MATCHES "minsizerel" OR CMAKE_BUILD_TYPE MATCHES "MINSIZEREL")
+    SET(CMAKE_BUILD_TYPE "MinSizeRel")
+ELSEIF (CMAKE_BUILD_TYPE MATCHES "relwithdebinfo" OR CMAKE_BUILD_TYPE MATCHES "RELWITHDEBINFO")
+    SET(CMAKE_BUILD_TYPE "RelWithDebInfo")
+ELSEIF (CMAKE_BUILD_TYPE MATCHES "debug" OR CMAKE_BUILD_TYPE MATCHES "DEBUG")
+    SET(CMAKE_BUILD_TYPE "Debug")
+ENDIF()
+
+# Setup postfix
+SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "add a postfix, usually d on windows")
+SET(CMAKE_RELEASE_POSTFIX "" CACHE STRING "add a postfix, usually empty on windows")
+SET(CMAKE_RELWITHDEBINFO_POSTFIX "rd" CACHE STRING "add a postfix, usually empty on windows")
+SET(CMAKE_MINSIZEREL_POSTFIX "s" CACHE STRING "add a postfix, usually empty on windows")
+
+# Set the build postfix extension according to what configuration is being built.
+IF (CMAKE_BUILD_TYPE MATCHES "Release")
+    SET(CMAKE_BUILD_POSTFIX "${CMAKE_RELEASE_POSTFIX}")
+ELSEIF (CMAKE_BUILD_TYPE MATCHES "MinSizeRel")
+    SET(CMAKE_BUILD_POSTFIX "${CMAKE_MINSIZEREL_POSTFIX}")
+ELSEIF(CMAKE_BUILD_TYPE MATCHES "RelWithDebInfo")
+    SET(CMAKE_BUILD_POSTFIX "${CMAKE_RELWITHDEBINFO_POSTFIX}")
+ELSEIF(CMAKE_BUILD_TYPE MATCHES "Debug")
+    SET(CMAKE_BUILD_POSTFIX "${CMAKE_DEBUG_POSTFIX}")
+ELSE()
+    SET(CMAKE_BUILD_POSTFIX "")
+ENDIF()
 
 #Options-------------------------------------------------
 
